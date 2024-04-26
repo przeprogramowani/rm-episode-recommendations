@@ -1,3 +1,4 @@
+import '../../index.css';
 import { DefaultApi, Episode } from '../../lib/rick-and-morty-api-client';
 import { useEffect, useState } from 'react';
 import EpisodeCover from './EpisodeCover';
