@@ -7,6 +7,9 @@ on:
 
 jobs:
   deploy-aws:
+    environment:
+      name: Production
+      url: https://d2mv4g2jxahmy1.cloudfront.net
     runs-on: ubuntu-latest
 
     steps:
