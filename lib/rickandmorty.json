@@ -1,0 +1,89 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Rick and Morty API",
+    "description": "Access information about episodes from Rick and Morty.",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://rickandmortyapi.com/api"
+    }
+  ],
+  "paths": {
+    "/episode/{ids}": {
+      "get": {
+        "operationId": "getEpisodesById",
+        "summary": "Fetch episodes by ID",
+        "parameters": [
+          {
+            "name": "ids",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The IDs of the episode to fetch separated by commas."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A list of episodes",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Episode"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Episode": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "The id of the episode."
+          },
+          "name": {
+            "type": "string",
+            "description": "The name of the episode."
+          },
+          "air_date": {
+            "type": "string",
+            "description": "The air date of the episode."
+          },
+          "characters": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "List of characters who have been seen in the episode."
+          },
+          "episode": {
+            "type": "string",
+            "description": "The code of the episode. S = Season, E = Episode. For example, S03E07.",
+            "example": "S03E07"
+          },
+          "url": {
+            "type": "string",
+            "description": "Link to the episodes's own URL endpoint."
+          },
+          "created": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Time at which the episode was created in the database."
+          }
+        }
+      }
+    }
+  }
+}
