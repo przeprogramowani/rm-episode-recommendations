@@ -7,6 +7,11 @@ const federation = new rspack.container.ModuleFederationPlugin({
   exposes: {
     './EpisodeRecommendations': './src/components/EpisodeRecommendations.tsx',
   },
+  library: {
+    type: 'esm',
+    name: 'recommendationsUI',
+  },
+  runtime: false,
   shared: {
     react: { singleton: true },
     'react-dom': { singleton: true },
