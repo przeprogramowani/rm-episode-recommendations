@@ -4,11 +4,16 @@ import { useEffect, useState } from 'react';
 import EpisodeCover from './EpisodeCover';
 import { charactersToCover, generateRecommendations } from '../utils/episodeUtils';
 
-const EpisodeRecommendations = () => {
+interface EpisodeRecommendationsProps {
+  userId: number;
+}
+
+const EpisodeRecommendations = ({ userId }: EpisodeRecommendationsProps) => {
   const [episodes, setEpisodes] = useState<Episode[]>([]);
 
   useEffect(() => {
     const api = new DefaultApi();
+    console.log('Fetching episodes for user', userId);
     api.getEpisodesById({ ids: generateRecommendations(1, 51, 6) }).then((response) => {
       setEpisodes(response);
     });
