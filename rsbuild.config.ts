@@ -1,33 +1,32 @@
-import { defineConfig, rspack } from '@rsbuild/core';
+import { defineConfig } from '@rsbuild/core';
 import { pluginReact } from '@rsbuild/plugin-react';
-
-const federation = new rspack.container.ModuleFederationPlugin({
-  name: 'recommendationsUI',
-  filename: 'recommendations.js',
-  exposes: {
-    './EpisodeRecommendations': './src/components/EpisodeRecommendations.tsx',
-  },
-  runtime: false,
-  shared: {
-    react: { singleton: true },
-    'react-dom': { singleton: true },
-  },
-});
+import { ModuleFederationPlugin } from '@module-federation/enhanced/rspack';
 
 export default defineConfig({
   source: {
     entry: {
-      main: './src/main.tsx',
-    },
-  },
-  tools: {
-    rspack: (config, { appendPlugins }) => {
-      appendPlugins([federation]);
+      app: './src/main.tsx',
     },
   },
   output: {
     distPath: {
       root: 'dist-mf',
+    },
+  },
+  tools: {
+    rspack: {
+      plugins: [
+        new ModuleFederationPlugin({
+          name: 'episodeRecommendations',
+          exposes: {
+            './EpisodeRecommendations': './src/components/EpisodeRecommendations.tsx',
+          },
+          shared: {
+            react: { singleton: true },
+            'react-dom': { singleton: true },
+          },
+        }),
+      ],
     },
   },
   plugins: [pluginReact()],
