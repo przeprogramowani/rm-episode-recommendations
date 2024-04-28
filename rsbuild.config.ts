@@ -13,7 +13,7 @@ export default defineConfig(async ({ env }) => ({
   },
   output: {
     cleanDistPath: env === 'production',
-    // assetPrefix: 'https://d2mv4g2jxahmy1.cloudfront.net/mf/',
+    assetPrefix: 'https://d2mv4g2jxahmy1.cloudfront.net/mf/',
     distPath: {
       root: isClientBuild ? 'dist/mf/client' : 'dist/mf/server',
     },
