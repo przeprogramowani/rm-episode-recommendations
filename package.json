@@ -6,7 +6,8 @@
   "type": "module",
   "scripts": {
     "build": "vite build",
-    "build:mf": "rsbuild build",
+    "build:mf:client": "MF_MODE_CLIENT=true rsbuild build",
+    "build:mf:server": "MF_MODE_CLIENT=false rsbuild build",
     "dev": "vite",
     "lint": "eslint src",
     "test": "vitest src",
@@ -16,6 +17,7 @@
   "license": "ISC",
   "devDependencies": {
     "@module-federation/enhanced": "0.1.10",
+    "@module-federation/node": "2.2.1",
     "@rsbuild/core": "0.6.7",
     "@rsbuild/plugin-react": "0.6.7",
     "@types/node": "20.11.28",

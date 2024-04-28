@@ -31,7 +31,10 @@ jobs:
         run: npm run test
 
       - name: Build app
-        run: npm run build && npm run build:mf
+        run: |
+          npm run build
+          npm run build:mf:client
+          npm run build:mf:server
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4.0.2

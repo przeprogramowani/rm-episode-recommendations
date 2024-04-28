@@ -1,40 +1,34 @@
 import { defineConfig } from '@rsbuild/core';
 import { pluginReact } from '@rsbuild/plugin-react';
-import { ModuleFederationPlugin } from '@module-federation/enhanced/rspack';
+import { clientModuleFederationPlugin } from './module-federation/client-config';
+import { serverModuleFederationPlugin } from './module-federation/server-config';
 
-export default defineConfig({
+const isClientBuild = process.env.MF_MODE_CLIENT === 'true';
+
+export default defineConfig(async ({ env }) => ({
   source: {
     entry: {
       app: './src/main.tsx',
     },
   },
   output: {
-    assetPrefix: 'https://d2mv4g2jxahmy1.cloudfront.net/mf/',
+    cleanDistPath: env === 'production',
+    // assetPrefix: 'https://d2mv4g2jxahmy1.cloudfront.net/mf/',
     distPath: {
-      root: 'dist-mf',
+      root: isClientBuild ? 'dist/mf/client' : 'dist/mf/server',
     },
   },
   tools: {
-    rspack: {
-      plugins: [
-        new ModuleFederationPlugin({
-          name: 'episodeRecommendations',
-          exposes: {
-            './EpisodeRecommendations': './src/components/EpisodeRecommendations.tsx',
-          },
-          shared: {
-            react: { singleton: true },
-            'react-dom': { singleton: true },
-          },
-          dts: {
-            generateTypes: {
-              extractRemoteTypes: true,
-              extractThirdParty: false,
-            },
-          },
-        }),
-      ],
+    webpack: (config) => {
+      if (!isClientBuild) {
+        config.plugins = [serverModuleFederationPlugin];
+      }
+    },
+    rspack: (config) => {
+      if (isClientBuild) {
+        config.plugins = [clientModuleFederationPlugin];
+      }
     },
   },
   plugins: [pluginReact()],
-});
+}));
