@@ -18,16 +18,11 @@ export default defineConfig(async ({ env }) => ({
       root: isClientBuild ? 'dist/mf/client' : 'dist/mf/server',
     },
   },
+  targets: [isClientBuild ? 'web' : 'node'],
   tools: {
-    webpack: (config) => {
-      if (!isClientBuild) {
-        config.plugins = [serverModuleFederationPlugin];
-      }
-    },
-    rspack: (config) => {
-      if (isClientBuild) {
-        config.plugins = [clientModuleFederationPlugin];
-      }
+    rspack: (config, { appendPlugins }) => {
+      config.target = isClientBuild ? 'web' : 'node';
+      appendPlugins(isClientBuild ? clientModuleFederationPlugin : serverModuleFederationPlugin);
     },
   },
   plugins: [pluginReact()],

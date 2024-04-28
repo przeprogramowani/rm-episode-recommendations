@@ -1,17 +1,20 @@
-import { UniversalFederationPlugin } from '@module-federation/node';
+// import { rspack } from '@rsbuild/core';
 
-export const serverModuleFederationPlugin = new UniversalFederationPlugin(
-  {
-    name: 'episodeRecommendations',
-    isServer: true,
-    library: { type: 'commonjs-module', name: 'recommendations' },
-    exposes: {
-      './EpisodeRecommendations': './src/components/EpisodeRecommendations.tsx',
-    },
-    shared: {
-      react: { singleton: true },
-      'react-dom': { singleton: true },
-    },
+import { ModuleFederationPlugin } from '@module-federation/enhanced/rspack';
+
+export const serverModuleFederationPlugin = new ModuleFederationPlugin({
+  remoteType: 'script',
+  name: 'episodeRecommendations',
+  library: { name: 'episodeRecommendations', type: 'commonjs-module' },
+  filename: 'recommendations.js',
+  exposes: {
+    './EpisodeRecommendations': './src/components/EpisodeRecommendations.tsx',
   },
-  {},
-);
+  runtimePlugins: [require.resolve('@module-federation/node/runtimePlugin')],
+  shared: [
+    {
+      react: { requiredVersion: '18.2.0', eager: true },
+      'react-dom': { requiredVersion: '18.2.0', eager: true },
+    },
+  ],
+});
