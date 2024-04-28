@@ -26,6 +26,12 @@ export default defineConfig({
             react: { singleton: true },
             'react-dom': { singleton: true },
           },
+          dts: {
+            generateTypes: {
+              extractRemoteTypes: true,
+              extractThirdParty: false,
+            },
+          },
         }),
       ],
     },
