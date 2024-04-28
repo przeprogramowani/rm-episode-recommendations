@@ -9,6 +9,7 @@ export default defineConfig({
     },
   },
   output: {
+    assetPrefix: 'https://d2mv4g2jxahmy1.cloudfront.net/mf/',
     distPath: {
       root: 'dist-mf',
     },
