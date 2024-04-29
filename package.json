@@ -6,8 +6,8 @@
   "type": "module",
   "scripts": {
     "build": "vite build",
-    "build:mf:client": "MF_MODE_CLIENT=true rsbuild build",
-    "build:mf:server": "MF_MODE_CLIENT=false rsbuild build",
+    "mf:build:client": "rsbuild build",
+    "mf:serve": "npx http-server dist --cors --port 3005",
     "dev": "vite",
     "lint": "eslint src",
     "test": "vitest src",
